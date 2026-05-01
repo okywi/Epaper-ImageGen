@@ -22,6 +22,7 @@ class Rest:
             app = web.Application()
             app.router.add_get("/health", self.health)
             app.router.add_get('/image', self.image)
+            app.router.add_post('/generate', self.generate)
             web.run_app(app, host=self.address, port=self.port)
         except Exception as e:
             print(f"Error: {e}")
@@ -45,3 +46,9 @@ class Rest:
             self.image_generator.get_image_path(room)
         )
 
+    async def generate(self, request):
+        lessons = await request.post()
+
+        self.image_generator.generate_image(lessons[0]['classroom'], lessons)
+
+        return web.json_response(text=f'generated new image for {lessons[0]['classroom']}')
