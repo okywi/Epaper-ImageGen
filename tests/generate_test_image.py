@@ -10,8 +10,9 @@ image_generator.generate_image("2.310", lessons=[{
         "subject": "BInf",
         "klasse": "BGT241",
         "code": 'cancelled',
+        "room_changed": True,
         "anzahl": 4,
-        "classroom": '2.311'
+        "classroom": '2.310->2.311'
     },
     {
         "date": "2026-05-01",
@@ -21,6 +22,7 @@ image_generator.generate_image("2.310", lessons=[{
         "subject": "IFT",
         "klasse": "BGT241",
         "code": '',
+        "room_changed": False,
         "anzahl": 2,
         "classroom": '2.311'
     }, {
@@ -30,6 +32,29 @@ image_generator.generate_image("2.310", lessons=[{
         "teacher": "WIB",
         "subject": "DEU",
         "klasse": "BGT241",
+        "room_changed": False,
+        "code": 'irregular',
+        "anzahl": 2,
+        "classroom": '2.311'
+    }, {
+        "date": "2026-05-01",
+        "start_time": "1345",
+        "end_time": "1615",
+        "teacher": "WIB",
+        "subject": "DEU",
+        "klasse": "BGT241",
+        "room_changed": False,
+        "code": 'irregular',
+        "anzahl": 2,
+        "classroom": '2.311'
+    }, {
+        "date": "2026-05-01",
+        "start_time": "1345",
+        "end_time": "1615",
+        "teacher": "WIB",
+        "subject": "DEU",
+        "klasse": "BGT241",
+        "room_changed": False,
         "code": 'irregular',
         "anzahl": 2,
         "classroom": '2.311'

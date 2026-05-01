@@ -42,16 +42,18 @@ class ImageGenerator:
         self.bottom_margin = cfg['bottom_margin']
         self.outside_margin = cfg['outside_margin']
         self.lesson_rect_spacing = cfg['lesson_rect_spacing']
+        self.lesson_rect_corner_radius = cfg['lesson_rect_corner_radius']
         self.lesson_rect_outline_color = cfg['lesson_rect_outline_color']
-        self.lesson_cancelled_color = cfg['lesson_cancelled_color']
         self.lesson_default_color = cfg['lesson_default_color']
         self.lesson_rect_outline_width = cfg['lesson_rect_outline_width']
         self.double_lesson_multiplier = cfg['double_lesson_multiplier']
 
-        # Standard Bottom Text aus Config abrufen
+
         self.bottom_text = cfg['bottom_text']
         self.irregular_code = cfg['irregular_code']
         self.cancelled_code = cfg['cancelled_code']
+        self.lesson_cancelled_color = cfg['lesson_cancelled_color']
+        self.lesson_irregular_color = cfg['lesson_irregular_color']
         self.inMaintenanceMode = cfg['inMaintenanceMode']
 
         # Schriftart laden
@@ -59,7 +61,7 @@ class ImageGenerator:
             self.font_huge = ImageFont.truetype(self.font, 64)  # Riesenschrift
             self.font_large = ImageFont.truetype(self.font, 48)  # Große Schrift für Fächer
             self.font_medium = ImageFont.truetype(self.font, 32)  # Mittlere Schrift für Klassen und Lehrer
-            self.font_small = ImageFont.truetype(self.font, 20)  # Kleine Schrift für "generiert um" und Zeiten
+            self.font_small = ImageFont.truetype(self.font, 24)  # Kleine Schrift für "generiert um" und Zeiten
         except IOError as e:
             print("Fonts konnten nicht geladen werden.", e)
 
@@ -112,7 +114,7 @@ class ImageGenerator:
         image.paste(self.get_logo_image(), (int(self.outside_margin), int(self.outside_margin)))
 
         # draw room and day
-        self.draw_room_and_day(lessons[0]['date'], draw, room, self.font_large, 0)
+        self.draw_room_and_day(lessons[0]['date'], draw, room, self.font_huge, 0)
 
         # draw bottom text
         if bottom_text is None:
@@ -157,6 +159,10 @@ class ImageGenerator:
                 color = self.lesson_default_color
                 if lesson['code'] == self.cancelled_code:
                     color = self.lesson_cancelled_color
+
+                # change appearance if irregular lesson
+                if lesson['code'] == self.irregular_code:
+                    color = self.lesson_irregular_color
 
                 # generate lesson image
                 lesson_image = self.generate_lesson_image(lesson, lesson_amount, double_lesson_amount, spacing, color)
@@ -203,7 +209,7 @@ class ImageGenerator:
         image = Image.new('L', (width, height), self.background_color)
         draw = ImageDraw.Draw(image)
 
-        draw.rectangle([0, 0, width, height], fill=self.lesson_rect_color, outline=color,
+        draw.rounded_rectangle([0, 0, width, height], fill=self.lesson_rect_color, outline=color, radius=self.lesson_rect_corner_radius,
                        width=self.lesson_rect_outline_width)
 
         # draw lesson texts
@@ -241,7 +247,7 @@ class ImageGenerator:
         ]
 
         # add room change
-        if lesson['code'] == self.irregular_code:
+        if lesson['room_changed']:
             lesson_text_data.insert(2, {
                 'text': f'{lesson['classroom']}',
                 'font': self.font_medium,
