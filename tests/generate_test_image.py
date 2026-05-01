@@ -3,29 +3,35 @@ from src.image_generator import ImageGenerator
 
 image_generator = ImageGenerator()
 image_generator.generate_image("2.310", lessons=[{
-        "start": "0815",
-        "end": "1130",
+        "date": "2026-05-01",
+        "start_time": "0815",
+        "end_time": "1130",
         "teacher": "SCJ",
         "subject": "BInf",
-        "class": "BGT241",
-        "changed": False,
-        "is_double": True,
+        "klasse": "BGT241",
+        "code": 'cancelled',
+        "anzahl": 4,
+        "classroom": '2.311'
     },
     {
-        "start": "1145",
-        "end": "1315",
+        "date": "2026-05-01",
+        "start_time": "1145",
+        "end_time": "1315",
         "teacher": "SID",
         "subject": "IFT",
-        "class": "BGT241",
-        "changed": False,
-        "is_double": False,
+        "klasse": "BGT241",
+        "code": '',
+        "anzahl": 2,
+        "classroom": '2.311'
     }, {
-        "start": "1345",
-        "end": "1615",
+        "date": "2026-05-01",
+        "start_time": "1345",
+        "end_time": "1615",
         "teacher": "WIB",
         "subject": "DEU",
-        "class": "BGT241",
-        "changed": False,
-        "is_double": True,
+        "klasse": "BGT241",
+        "code": 'irregular',
+        "anzahl": 2,
+        "classroom": '2.311'
     }
 ])
