@@ -21,7 +21,7 @@ class Rest:
         try:
             app = web.Application()
             app.router.add_get("/health", self.health)
-            app.router.add_get('/image/{room}', self.image)
+            app.router.add_get('/image', self.image)
             web.run_app(app, host=self.address, port=self.port)
         except Exception as e:
             print(f"Error: {e}")
@@ -33,7 +33,7 @@ class Rest:
         })
 
     async def image(self, request):
-        room = request.match_info['room']
+        room = request.rel_url.query["room"]
         path = self.image_generator.get_image_path(room)
 
         if not os.path.exists(path):

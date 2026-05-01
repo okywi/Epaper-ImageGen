@@ -35,7 +35,7 @@ class ImageGenerator:
         # Standard-Font in Variable übertragen:
         self.font = cfg['standard_font']
 
-        # Rechteckdimensionen einfügen:
+        # Lesson rect config
         self.lesson_rect_color = cfg['lesson_rect_color']
         self.lesson_rect_height = cfg['lesson_rect_height']
         self.upper_margin = cfg['upper_margin']
@@ -48,7 +48,11 @@ class ImageGenerator:
         self.lesson_rect_outline_width = cfg['lesson_rect_outline_width']
         self.double_lesson_multiplier = cfg['double_lesson_multiplier']
 
+        # battery status
+        self.battery_status_height = cfg['battery_status_height']
+        self.battery_status_width = cfg['battery_status_width']
 
+        # general config
         self.bottom_text = cfg['bottom_text']
         self.irregular_code = cfg['irregular_code']
         self.cancelled_code = cfg['cancelled_code']
@@ -120,9 +124,13 @@ class ImageGenerator:
         if bottom_text is None:
             bottom_text = self.bottom_text
 
-        draw.text((self.outside_margin, self.size[1] - self.outside_margin), bottom_text, font=self.font_small,
-                  anchor="lm")
+        #draw.text((self.outside_margin, self.size[1] - self.outside_margin), bottom_text, font=self.font_small,
+         #         anchor="lm")
 
+        # draw battery status
+        image.paste(self.draw_battery_status(50), (self.outside_margin + self.lesson_rect_corner_radius//2, int(self.size[1] - self.battery_status_height - (self.outside_margin - self.battery_status_height/2))))
+
+        # draw generated text
         self.draw_date_generated(draw, self.font_small, 0)
 
         # draw lesson rects
@@ -281,6 +289,16 @@ class ImageGenerator:
         draw.text((self.size[0] - self.outside_margin, self.upper_margin // 2), room_day_text, font=font, fill=color,
                   anchor='rm')
 
+    def draw_battery_status(self, charge):
+        image = Image.new('L', (self.battery_status_width, self.battery_status_height), self.background_color)
+
+        draw = ImageDraw.Draw(image)
+        draw.rectangle([0,0, self.battery_status_width-1, self.battery_status_height-1], width=2, outline=2)
+
+        draw.rectangle([3, 3, self.battery_status_width * (charge / 100) - 4, self.battery_status_height - 4], fill=0)
+
+        return image
+
     def draw_date_generated(self, draw, font, color):
         # Aktuelle Zeit für den unteren Text
         current_time = datetime.now().strftime("%d.%m.%Y %H:%M Uhr")
@@ -289,7 +307,7 @@ class ImageGenerator:
         footer_text = f"Generiert: {current_time}"
 
         # align with bottom right
-        draw.text((self.size[0] - self.outside_margin, self.size[1] - self.outside_margin), footer_text, font=font,
+        draw.text((self.size[0] - self.outside_margin - self.lesson_rect_corner_radius/2, self.size[1] - self.outside_margin), footer_text, font=font,
                   fill=color, anchor='rm')
 
     @staticmethod

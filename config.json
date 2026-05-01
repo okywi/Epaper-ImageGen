@@ -22,7 +22,7 @@
       "lesson_rect_color": 255,
       "lesson_rect_height": 100,
       "upper_margin": 120,
-      "bottom_margin": 38,
+      "bottom_margin": 35,
       "outside_margin": 20,
       "lesson_rect_spacing": [
         25,
@@ -37,11 +37,8 @@
       "lesson_rect_outline_width": 5,
       "lesson_text_padding": 20,
       "double_lesson_multiplier": 1.75,
-      "possible_double_lesson_times": [
-        195,
-        210,
-        150
-      ],
+      "battery_status_height": 16,
+      "battery_status_width": 50,
       "bottom_text": "~UwU",
       "irregular_code": "irregular",
       "cancelled_code": "cancelled",
