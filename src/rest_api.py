@@ -1,10 +1,7 @@
 import json
 import os.path
 from aiohttp import web
-import multidict
 import sys
-
-from multidict import MultiDictProxy
 
 
 class Rest:
@@ -38,13 +35,20 @@ class Rest:
         })
 
     async def image(self, request):
-        room = request.rel_url.query["room"]
+        room = request.rel_url.query.get("room")
+        if not room:
+            return web.json_response({
+                "status": "yellow",
+                "error": 'No room was provided.'
+            }, status=400)
+
         path = self.image_generator.get_image_path(room)
 
         if not os.path.exists(path):
             return web.json_response({
-                "response": "The file does not exist. Did you spell the room correctly?'"
-            })
+                "status": "red",
+                "error": "The file does not exist. Did you spell the room correctly?'"
+            }, status=404)
 
         return web.FileResponse(
             self.image_generator.get_image_path(room)
