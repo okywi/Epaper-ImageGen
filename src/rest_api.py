@@ -1,7 +1,11 @@
 import json
 import os.path
 from aiohttp import web
+import multidict
 import sys
+
+from multidict import MultiDictProxy
+
 
 class Rest:
     def __init__(self, image_generator):
@@ -47,8 +51,11 @@ class Rest:
         )
 
     async def generate(self, request):
-        lessons = await request.post()
+        data = await request.json()
 
-        self.image_generator.generate_image(lessons[0]['classroom'], lessons)
+        room = data['room']
+        lessons = data['lessons']
 
-        return web.json_response(text=f'generated new image for {lessons[0]['classroom']}')
+        self.image_generator.generate_image(room, lessons)
+
+        return web.json_response(text=f'generated new image for {room}')
