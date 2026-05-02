@@ -51,10 +51,10 @@ Format:
         "teacher": "SCJ",
         "subject": "BInf",
         "klasse": "BGT241",
-        "code": 'cancelled',
-        "room_changed": True,
+        "code": "cancelled",
+        "room_changed": true,
         "anzahl": 4,
-        "classroom": '2.310->2.311'
+        "classroom": "2.310->2.311"
     },{
         "date": "2026-05-01",
         "start_time": "1145",
@@ -62,10 +62,10 @@ Format:
         "teacher": "SID",
         "subject": "IFT",
         "klasse": "BGT241",
-        "code": '',
-        "room_changed": False,
+        "code": "",
+        "room_changed": false,
         "anzahl": 2,
-        "classroom": '2.311'
+        "classroom": "2.311"
     }
 ]}
 ```
