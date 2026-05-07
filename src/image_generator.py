@@ -319,12 +319,14 @@ class ImageGenerator:
             gray_image = img.convert('L')
 
             # Pixelwerte als numpy-Array extrahieren
-            pixel_array = np.array(gray_image)
+            pixel_array = np.array(gray_image, dtype=np.uint8)
 
             # In ein eindimensionales Array konvertieren
             pixel_array_flattened = pixel_array.flatten()  # Alternativ: pixel_array.ravel()
 
-        return pixel_array_flattened
+            packed = np.packbits(pixel_array_flattened)
+
+        return list(bytes(packed))
 
     @staticmethod
     def reduce_pixel_count(pixel_array):

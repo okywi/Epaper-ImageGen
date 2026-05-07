@@ -9,8 +9,8 @@
       "image_path": "room_images/%ROOM%.png",
       "maintenance_path": "maintenance/graustufenbild_demo.png",
       "image_size": [
-        960,
-        576
+        800,
+        600
       ],
       "background_color": 255,
       "tbz_logo_path": "assets/TBZ-black-white.png",
