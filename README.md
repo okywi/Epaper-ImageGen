@@ -12,7 +12,7 @@ chmod +x ./run.sh
 Gibt den aktuellen Status des Microservices zurück
 
 ### Get /image
-Gibt das Image als 8bit array für einen Raum zurück
+Gibt das Image als Hex String für einen Raum zurück
 
 **Para**
 
@@ -26,7 +26,7 @@ GET /image?room=2.310
 ```json
 {
   "status": "green",
-  "image":  [255, 255, 10, 255, 30, 250, 130, ...]
+  "image":  "0xff,0xff,0x07,..."
 }
 ```
 
