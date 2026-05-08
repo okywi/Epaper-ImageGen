@@ -50,9 +50,12 @@ class Rest:
                 "error": "The file does not exist. Did you spell the room correctly?'"
             }, status=404)
 
-        return web.FileResponse(
-            self.image_generator.get_image_path(room)
-        )
+        image_path = self.image_generator.get_image_path(room)
+
+        return web.json_response(data={
+            "status": "green",
+            "image": self.image_generator.image_to_hex_string(image_path)
+        })
 
     async def generate(self, request):
         data = await request.json()

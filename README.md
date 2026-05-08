@@ -2,7 +2,7 @@
 Generates the e paper images.
 
 ## Running with docker
-```commandline
+```bash
 chmod +x ./run.sh
 ./run.sh
 ```
@@ -12,7 +12,7 @@ chmod +x ./run.sh
 Gibt den aktuellen Status des Microservices zurück
 
 ### Get /image
-Gibt das Image für einen Raum zurück
+Gibt das Image als Hex String für einen Raum zurück
 
 **Para**
 
@@ -21,6 +21,14 @@ Gibt das Image für einen Raum zurück
 |room|str| Name des Raums z.B. 2.310|
 
 GET /image?room=2.310
+
+**Response 200**
+```json
+{
+  "status": "green",
+  "image":  "0xff,0xff,0x07,..."
+}
+```
 
 **Response 400** – Room nicht angegeben
 ```json
@@ -33,7 +41,6 @@ GET /image?room=2.310
   "status": "red",
   "error": "The file does not exist. Did you spell the room correctly?'"
 }
-
 ```
 
 
