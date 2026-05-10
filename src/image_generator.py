@@ -118,7 +118,8 @@ class ImageGenerator:
         image.paste(self.get_logo_image(), (int(self.outside_margin), int(self.outside_margin)))
 
         # draw room and day
-        self.draw_room_and_day(lessons[0]['date'], draw, room, self.font_huge, 0)
+        if len(lessons) > 0:
+            self.draw_room_and_day(lessons[0]['date'], draw, room, self.font_huge, 0)
 
         # draw bottom text
         if bottom_text is None:
