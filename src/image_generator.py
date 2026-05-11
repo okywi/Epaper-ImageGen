@@ -134,6 +134,16 @@ class ImageGenerator:
         # draw generated text
         self.draw_date_generated(draw, self.font_small, 0)
 
+        # check if dummy lessons need to be created
+        if len(lessons) < 3:
+            dummys_to_create = 3 - len(lessons)
+
+            for _ in range(dummys_to_create):
+                lessons.append({
+                    "is_dummy": True,
+                    "anzahl": 2,
+                })
+
         # draw lesson rects
         if len(lessons) == 0:
             # keine stunden zum Anzeigen
@@ -164,14 +174,15 @@ class ImageGenerator:
                 if lesson_amount >= 6:
                     spacing = self.lesson_rect_spacing[2]
 
-                # change color according to state (cancelled or not)
-                color = self.lesson_default_color
-                if lesson['code'] == self.cancelled_code:
-                    color = self.lesson_cancelled_color
+                if not 'is_dummy' in lesson:
+                    # change color according to state (cancelled or not)
+                    color = self.lesson_default_color
+                    if lesson['code'] == self.cancelled_code:
+                        color = self.lesson_cancelled_color
 
-                # change appearance if irregular lesson
-                if lesson['code'] == self.irregular_code:
-                    color = self.lesson_irregular_color
+                    # change appearance if irregular lesson
+                    if lesson['code'] == self.irregular_code:
+                        color = self.lesson_irregular_color
 
                 # generate lesson image
                 lesson_image = self.generate_lesson_image(lesson, lesson_amount, double_lesson_amount, spacing, color)
@@ -218,6 +229,9 @@ class ImageGenerator:
         image = Image.new('L', (width, height), self.background_color)
         draw = ImageDraw.Draw(image)
 
+        if 'is_dummy' in lesson:
+            return image
+
         draw.rounded_rectangle([0, 0, width, height], fill=self.lesson_rect_color, outline=color, radius=self.lesson_rect_corner_radius,
                        width=self.lesson_rect_outline_width)
 
@@ -237,30 +251,40 @@ class ImageGenerator:
                 'text': f'{start_time}\n{end_time}',
                 'font': self.font_small,
                 'color': color,
+                'align': 'left',
+                'stroke_width': 0
             },
             {
                 'text': lesson["klasse"],
                 'font': self.font_medium,
                 'color': color,
+                'align': 'left',
+                'stroke_width': 0
             },
             {
                 'text': lesson["subject"],
                 'font': self.font_large,
                 'color': color,
+                'align': 'left',
+                'stroke_width': 0
             },
             {
                 'text': lesson["teacher"],
                 'font': self.font_medium,
                 'color': color,
+                'align': 'left',
+                'stroke_width': 0
             }
         ]
 
         # add room change
         if lesson['room_changed']:
             lesson_text_data.insert(2, {
-                'text': f'{lesson['classroom']}',
+                'text': f'{lesson['classroom'].split('->')[1]}',
                 'font': self.font_medium,
                 'color': color,
+                'align': 'center',
+                'stroke_width': 1
         })
 
         text_amount = len(lesson_text_data)
@@ -276,9 +300,9 @@ class ImageGenerator:
 
             # check for multiline
             if '\n' in lesson_text['text']:
-                draw.multiline_text((x, y), text, font=font, fill=color, anchor="mm")
+                draw.multiline_text((x, y), text, font=font, fill=color, anchor="mm", align=lesson_text['align'], stroke_width=lesson_text['stroke_width'])
             else:
-                draw.text((x, y), text, font=font, fill=color, anchor="mm")
+                draw.text((x, y), text, font=font, fill=color, anchor="mm", align=lesson_text['align'], stroke_width=lesson_text['stroke_width'])
 
     def draw_room_and_day(self, date, draw, room, font, color):
         current_day_num = datetime.strptime(date, '%Y-%m-%d').weekday()
