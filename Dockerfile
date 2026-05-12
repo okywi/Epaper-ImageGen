@@ -12,5 +12,5 @@ COPY . .
 EXPOSE 72
 
 ENTRYPOINT ["python3"]
-CMD ["tests/generate_test_image.py"]
-# CMD ["src/main.py"]
+#CMD ["tests/generate_test_image.py"]
+CMD ["src/main.py"]
