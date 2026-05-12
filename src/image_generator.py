@@ -135,22 +135,21 @@ class ImageGenerator:
         # draw generated text
         self.draw_date_generated(draw, self.font_small, 0)
 
-        # check if dummy lessons need to be created
-        if len(lessons) < 3:
-            dummys_to_create = 3 - len(lessons)
-
-            for _ in range(dummys_to_create):
-                lessons.append({
-                    "is_dummy": True,
-                    "anzahl": 2,
-                })
-
         # draw lesson rects
         if len(lessons) == 0:
             # keine stunden zum Anzeigen
             draw.text((140, 240), "Heute kein weiterer Unterricht", font=self.font_large, fill=0)
             draw.text((270, 320), "in diesem Raum", font=self.font_large, fill=0)
         else:
+            # check if dummy lessons need to be created
+            if len(lessons) < 3:
+                dummys_to_create = 3 - len(lessons)
+
+                for _ in range(dummys_to_create):
+                    lessons.append({
+                        "is_dummy": True,
+                        "anzahl": 2,
+                    })
             previous_lesson_image_height = 0
             double_lesson_amount = 0
             lesson_amount = len(lessons)
@@ -174,6 +173,7 @@ class ImageGenerator:
                     spacing = self.lesson_rect_spacing[1]
                 if lesson_amount >= 6:
                     spacing = self.lesson_rect_spacing[2]
+
 
                 if not 'is_dummy' in lesson:
                     # change color according to state (cancelled or not)
