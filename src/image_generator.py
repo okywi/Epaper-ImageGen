@@ -138,8 +138,8 @@ class ImageGenerator:
         # draw lesson rects
         if len(lessons) == 0:
             # keine stunden zum Anzeigen
-            draw.text((140, 240), "Heute kein weiterer Unterricht", font=self.font_large, fill=0)
-            draw.text((270, 320), "in diesem Raum", font=self.font_large, fill=0)
+            draw.text((image.width//2, 240), "Heute kein weiterer Unterricht", font=self.font_large, fill=0, anchor="mm")
+            draw.text((image.width//2, 320), "in diesem Raum", font=self.font_large, fill=0, anchor="mm")
         else:
             # check if dummy lessons need to be created
             if len(lessons) < 3:
